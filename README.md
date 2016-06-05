@@ -12,7 +12,7 @@ Light features included:
 I am aware of the Open Source Lights project which has a lot more features, but I wanted to figure out how to make this work on my own.  
 I made this for use in an RC4WD Gelande chassis but it should be adaptable for any RC car.
 
-# Required hardware
+# Hardware
 The required hardware very basic. 
 
 I used power directly from a 2S lipo battery to power the arduino, using a BEC is also an option.
