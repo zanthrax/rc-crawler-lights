@@ -1,5 +1,13 @@
-# rc-crawler-lights
+# RC Crawler Lights
 An Arduino sketch for adding LED lights to an RC car.
+Ch1 and Ch2 are connected to the Arduino to allow the lights to follow what the car is doing.
+Light features included:  
+* Running lights, always on.
+* Headlights, these turn on on first throttle input.
+* Blinking indicators for the left and right side, these follow the steering input. When no signal from the receiver is found the hazard lights will blink.
+* Tail- and brake lights. Taillights are always on and will turn brighter when no throttle input is given.
+* Brake light, on when no throttle input is given. Can be used for a third brake light.
+* Reverse light, on when driving in reverse.
 
 I am aware of the Open Source Lights project which has a lot more features, but I wanted to figure out how to make this work on my own.  
 I made this for use in an RC4WD Gelande chassis but it should be adaptable for any RC car.
