@@ -5,8 +5,8 @@ const int steering = 13;
 // Output pins
 const int headlights = 2; // headlights
 const int runningLights = 3; // running lights, should be a PWM capable pin
-const int indicators[2] = {4, 5}; // indicators left and right
-const int moreIndicators[sizeof(indicators)] = {7, 8}; // indicators left and right
+const int frontIndicators[2] = {4, 5}; // indicators left and right
+const int rearIndicators[sizeof(frontIndicators)] = {7, 8}; // indicators left and right
 const int taillights = 9; // combined tail and brake lights, should be a PWM capable pin
 const int reverse = 10; // reverse lights
 //const int fog = 0; // fog light, not used
@@ -51,17 +51,18 @@ void setup() {
   pinMode(steering, INPUT);
   pinMode(headlights, OUTPUT);
   pinMode(runningLights, OUTPUT);
-  pinMode(indicators[0], OUTPUT); // left
-  pinMode(indicators[1], OUTPUT); // right
-  pinMode(moreIndicators[0], OUTPUT); // left
-  pinMode(moreIndicators[1], OUTPUT); // right
+  // Front and rear indicators each have their own pin so we do not have to run 3 LEDs on one pin which would exceed to max. current on some Arduino board.
+  pinMode(frontIndicators[0], OUTPUT); // left
+  pinMode(frontIndicators[1], OUTPUT); // right
+  pinMode(rearIndicators[0], OUTPUT); // left
+  pinMode(rearIndicators[1], OUTPUT); // right
   pinMode(taillights, OUTPUT);
   pinMode(reverse, OUTPUT);
   //pinMode(fog, OUTPUT);
   pinMode(brake, OUTPUT);
 
   // Reset blinking indicators
-  for (int i = 0; i < sizeof(indicators); i++) {
+  for (int i = 0; i < sizeof(frontIndicators); i++) {
     indicatorSwitch[i] = false;
     indicatorState[i] = false;
     previousIndicatorMillis[i] = 0;
@@ -94,7 +95,7 @@ void loop() {
 
   /*
       Get steering position from RC receiver.
-      Without a signal the 
+      Without a signal from the RC receiver the hazard light will activate.
   */
   steeringPosition = pulseIn(steering, HIGH, 25000);
   if (steeringPosition) {
@@ -121,6 +122,7 @@ void loop() {
   /*
      Headlights.
      Off by default, get turned on the first time driving forward.
+     @TODO: turn off headlights after a certain amount of time has passed without any thottle input.
   */
   if (throttleForward) {
     digitalWrite(headlights, HIGH);
@@ -134,13 +136,14 @@ void loop() {
 
   /*
       Indicators.
+      Derived from the Arduino Blink Without Delay tutorial.
       indicatorSwitch knows which indicators should be blinking.
       indicatorState knows which indicator LEDs should be on.
   */
   indicatorSwitch[0] = steeringLeft;
   indicatorSwitch[1] = steeringRight;
   // For left and right side indicators
-  for (int i = 0; i < sizeof(indicators); i++) {
+  for (int i = 0; i < sizeof(frontIndicators); i++) {
     if (indicatorSwitch[i]) {
       // Blink indicators
       if (currentMillis - previousIndicatorMillis[i] >= indicatorsInterval) {
@@ -153,22 +156,22 @@ void loop() {
       indicatorState[i] = LOW;
       previousIndicatorMillis[i] = 0;
     }
-    digitalWrite(indicators[i], indicatorState[i]);
-    digitalWrite(moreIndicators[i], indicatorState[i]);
+    digitalWrite(frontIndicators[i], indicatorState[i]);
+    digitalWrite(rearIndicators[i], indicatorState[i]);
   }
 
   /*
      Debug info.
   */
-  if (0) {
+  if (false) {
     // RC signal debugging
-    Serial.print("T ");
+    Serial.print("T "); // Throttle
     Serial.print(String(throttlePosition));
     Serial.print(" ");
     Serial.print(throttleForward ? "1" : "0");
     Serial.print(throttleDead ? "1" : "0");
     Serial.print(throttleReverse ? "1" : "0");
-    Serial.print(" S ");
+    Serial.print(" S "); // Steering
     Serial.print(String(steeringPosition));
     Serial.print(" ");
     Serial.print(steeringLeft ? "1" : "0");
@@ -176,12 +179,12 @@ void loop() {
     Serial.print(steeringRight ? "1" : "0");
 
     // Indicator debugging
-    //Serial.print(" Lmili "); // Left last timeout
-    //Serial.print(previousIndicatorMillis[0]);
-    //Serial.print(" Lsw "); // Left Switch Position
-    //Serial.print(indicatorSwitch[0]);
-    //Serial.print(" Lst "); // Left LED State
-    //Serial.print(indicatorState[0]);
+    Serial.print(" Lmili "); // Left last timeout
+    Serial.print(previousIndicatorMillis[0]);
+    Serial.print(" Lsw "); // Left Switch Position
+    Serial.print(indicatorSwitch[0]);
+    Serial.print(" Lst "); // Left LED State
+    Serial.print(indicatorState[0]);
 
     // New line
     Serial.println("");
