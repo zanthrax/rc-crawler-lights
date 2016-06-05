@@ -78,7 +78,8 @@ void loop() {
 
   /*
      Get throttle position from RC receiver.
-     Why the pulseIn() timeout needs to be that high? I don't know.    
+     pulseIn() looks for a pulse on a digital pin. RC receivers send out PWM signals, the longest possible pulse is 20milliseconds.
+     A timeout in microseconds is expected by pulseIn().
   */
   throttlePosition = pulseIn(throttle, HIGH, 25000);
   if (throttlePosition) {
