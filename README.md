@@ -1,6 +1,6 @@
 # RC Crawler Lights
-An Arduino sketch for adding LED lights to an RC car.
-Ch1 and Ch2 are connected to the Arduino to allow the lights to follow what the car is doing.
+An Arduino sketch for adding LED lights to an RC car.  
+Ch1 and Ch2 are connected to the Arduino to allow the lights to follow what the car is doing.  
 Light features included:  
 * Running lights, always on.
 * Headlights, these turn on on first throttle input.
@@ -20,6 +20,6 @@ I used power directly from a 2S lipo battery to power the arduino, using a BEC i
 To read the throttle- and steeringposition from the RC receiver the signal wires to the ESC and steering servo can be tapped and directly wired to their pins on the Arduino board. 
 Take note that this may interfere with propper operation of the receiver when the arduino is powered of.
 
-LEDs can be connected to the output pins as usual, using current limiting resistors.
-For my project I used an Arduino Nano board which has a 40mA current limit on it's digital pins which creates a limit of two LEDs per pin.
+LEDs can be connected to the output pins using current limiting resistors, as usual on Arduino projects.  
+For my project I used an Arduino Nano board which has a 40mA current limit on it's digital pins which creates a limit of two LEDs per pin.  
 Two pins for indicators were implemented since I needed three indicators per side on my project.
