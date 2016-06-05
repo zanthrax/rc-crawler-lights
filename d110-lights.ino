@@ -16,10 +16,10 @@ const int brake = 11; // third brake light
 const int indicatorsInterval = 500; // milliseconds between switching indicators on and off
 const int taillightBrightness = 40; // duty cycle for tail light brightness: 0 = 0%, 255 = 100%, brakelights are 255
 const int runningLightBrightness = 30; // duty cycle for running light brightness: 0 = 0%, 255 = 100%
-const bool flipThrottle = false; // flip forward and reverse
-const bool flipSteering = false; // flip left and right indicators
+const bool flipThrottle = false; // swap forward and reverse
+const bool flipSteering = false; // swap left and right indicators
 
-// RC pulse length, by making the deadspot a range we filter out small fluctuations
+// RC pulse length, by making the deadspots a range we filter out small fluctuations in the receiver signal.
 const int rcThrottleDead = 1470;
 const int throttleDeadTreshold = 100;
 const int throttleDeadLow = rcThrottleDead - throttleDeadTreshold;
@@ -51,7 +51,7 @@ void setup() {
   pinMode(steering, INPUT);
   pinMode(headlights, OUTPUT);
   pinMode(runningLights, OUTPUT);
-  // Front and rear indicators each have their own pin so we do not have to run 3 LEDs on one pin which would exceed to max. current on some Arduino board.
+  // Front and rear indicators each have their own pin so we do not have to run 3 LEDs on one pin which would exceed to max. current on some Arduino boards.
   pinMode(frontIndicators[0], OUTPUT); // left
   pinMode(frontIndicators[1], OUTPUT); // right
   pinMode(rearIndicators[0], OUTPUT); // left
@@ -74,7 +74,7 @@ void setup() {
 }
 
 void loop() {
-  unsigned long currentMillis = millis(); // for blink without delay()
+  unsigned long currentMillis = millis(); // for blink without using delay()
 
   /*
      Get throttle position from RC receiver.
