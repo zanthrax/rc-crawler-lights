@@ -110,8 +110,8 @@ void loop() {
     steeringDead = !steeringLeft && !steeringRight;
 
     if (flipSteering && !steeringDead) {
-      throttleForward = !throttleForward;
-      throttleForward = !throttleForward;
+      steeringLeft = !steeringLeft;
+      steeringRight = !steeringRight;
     }
   } else {
     // no steering signal, blink all indicators
