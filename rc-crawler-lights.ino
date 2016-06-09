@@ -14,7 +14,7 @@ const int brake = 11; // third brake light
 
 // Settings
 const int indicatorsInterval = 500; // milliseconds between switching indicators on and off
-const int headlightsTimeout = 30000; // milliseconds of no throttle input required to turn of headlights
+const int headlightsTimeout = 30000; // milliseconds of no throttle input required to turn of headlights, set to 0 to disable timeout
 const int taillightBrightness = 40; // duty cycle for tail light brightness: 0 = 0%, 255 = 100%, brakelights are 255
 const int runningLightBrightness = 255; // duty cycle for running light brightness: 0 = 0%, 255 = 100%
 const bool flipThrottle = false; // swap forward and reverse
@@ -142,7 +142,7 @@ void loop() {
     previousHeadlightsMillis = currentMillis;
     digitalWrite(headlights, HIGH);
   } else {
-    if (currentMillis - previousHeadlightsMillis >= headlightsTimeout) {
+    if (headlightsTimeout && ((currentMillis - previousHeadlightsMillis) >= headlightsTimeout)) {
       digitalWrite(headlights, LOW);
     }
   }
