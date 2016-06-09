@@ -83,9 +83,14 @@ void loop() {
   */
   throttlePosition = pulseIn(throttle, HIGH, 25000);
   if (throttlePosition) {
-    throttleForward = (throttlePosition > throttleDeadHigh) != flipThrottle;
-    throttleReverse = (throttlePosition < throttleDeadLow) != flipThrottle;
-    throttleDead = !throttleForward && !throttleReverse;    
+    throttleForward = throttlePosition > throttleDeadHigh;
+    throttleReverse = throttlePosition < throttleDeadLow;
+    throttleDead = !throttleForward && !throttleReverse;
+
+    if (flipThrottle && !throttleDead) {
+      throttleForward = !throttleForward;
+      throttleReverse = !throttleReverse;
+    }  
   } else {
     // no throttle signal, receiver not connected or not switched on? do nothing.
     throttleForward = false;
@@ -100,9 +105,14 @@ void loop() {
   */
   steeringPosition = pulseIn(steering, HIGH, 25000);
   if (steeringPosition) {
-    steeringLeft = (steeringPosition < steeringDeadLow) != flipSteering;
-    steeringRight = (steeringPosition > steeringDeadHigh) != flipSteering;
+    steeringLeft = steeringPosition < steeringDeadLow;
+    steeringRight = steeringPosition > steeringDeadHigh;
     steeringDead = !steeringLeft && !steeringRight;
+
+    if (flipSteering && !steeringDead) {
+      throttleForward = !throttleForward;
+      throttleForward = !throttleForward;
+    }
   } else {
     // no steering signal, blink all indicators
     steeringLeft = true;
