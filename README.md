@@ -12,6 +12,9 @@ Light features included:
 I am aware of the Open Source Lights project which has a lot more features, but I wanted to figure out how to make this work on my own.  
 I made this for use in an RC4WD Gelande chassis but it should be adaptable for any RC car.
 
+Here's a demo video on YouTube:  
+[https://www.youtube.com/watch?v=aaU9kNhuQuw]
+
 # Hardware
 The required hardware is very basic. 
 
